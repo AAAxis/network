@@ -44,8 +44,8 @@ struct NetworkView: View {
     
     // MARK: - VPN Configuration
     private let defaultServerAddress = "69.197.134.25"
-    private let defaultUsername = "dima"       // Use the correct VPN server credentials
-    private let defaultPassword = "rabbit"     // Use the correct VPN server credentials
+    private let defaultUsername = "XXX"       // Use the correct VPN server credentials
+    private let defaultPassword = "XXX"     // Use the correct VPN server credentials
     private let defaultSharedSecret = "ipsec-vpn-key"
     
     // VPN server ports

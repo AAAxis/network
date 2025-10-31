@@ -20,6 +20,8 @@ class VPNManager: NSObject {
     private let kKeychainVPNPasswordKey = "com.rockvpn.password"
     private let kKeychainVPNSharedSecretKey = "com.rockvpn.sharedsecret"
     private let kKeychainVPNServerAddressKey = "com.rockvpn.serveraddress"
+    private let kKeychainVPNCountryNameKey = "com.rockvpn.countryname"
+    private let kKeychainVPNCountryCodeKey = "com.rockvpn.countrycode"
     
     override init() {
         super.init()
@@ -52,13 +54,13 @@ class VPNManager: NSObject {
         let statusString = vpnStatusString(status)
         let serverAddress = manager.protocolConfiguration?.serverAddress ?? "Unknown"
         
-        // Get country info from server address or configuration
-        var countryName: String? = nil
-        var countryCode: String? = nil
+        // Get country info from stored keychain values (saved during connection)
+        var countryName: String? = getKeychainValue(key: kKeychainVPNCountryNameKey)
+        var countryCode: String? = getKeychainValue(key: kKeychainVPNCountryCodeKey)
         
-        // Try to extract country from server address or use stored info
-        if let serverAddr = manager.protocolConfiguration?.serverAddress {
-            // You could parse server address or store country info separately
+        // Fallback: Try to extract country from server address if not stored
+        if countryName == nil, let serverAddr = manager.protocolConfiguration?.serverAddress {
+            // You could parse server address or use stored info
             countryName = serverAddr.contains("us") || serverAddr.contains("usa") ? "United States" :
                          serverAddr.contains("de") || serverAddr.contains("germany") ? "Germany" :
                          serverAddr.contains("il") || serverAddr.contains("israel") ? "Israel" :
@@ -178,6 +180,8 @@ class VPNManager: NSObject {
         // Use credentials from Remote Config (passed from Flutter)
         // Save credentials to keychain for secure storage
         saveCredentialsToKeychain(username: username, password: password, sharedSecret: sharedSecret)
+        // Save country info to keychain so we can retrieve it later
+        saveCountryInfoToKeychain(countryCode: countryCode, countryName: countryName)
         
         let ipSecConfig = NEVPNProtocolIPSec()
         ipSecConfig.serverAddress = serverAddress
@@ -223,6 +227,11 @@ class VPNManager: NSObject {
         saveToKeychain(key: kKeychainVPNUsernameKey, value: username)
         saveToKeychain(key: kKeychainVPNPasswordKey, value: password)
         saveToKeychain(key: kKeychainVPNSharedSecretKey, value: sharedSecret)
+    }
+    
+    private func saveCountryInfoToKeychain(countryCode: String, countryName: String) {
+        saveToKeychain(key: kKeychainVPNCountryCodeKey, value: countryCode)
+        saveToKeychain(key: kKeychainVPNCountryNameKey, value: countryName)
     }
     
     // MARK: - Keychain Operations

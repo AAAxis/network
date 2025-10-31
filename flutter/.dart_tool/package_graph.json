@@ -12,6 +12,7 @@
         "firebase_messaging",
         "firebase_remote_config",
         "flutter",
+        "flutter_v2ray",
         "google_mobile_ads",
         "http",
         "in_app_purchase",
@@ -135,6 +136,14 @@
         "shared_preferences_platform_interface",
         "shared_preferences_web",
         "shared_preferences_windows"
+      ]
+    },
+    {
+      "name": "flutter_v2ray",
+      "version": "1.0.10",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
       ]
     },
     {
@@ -629,6 +638,13 @@
       ]
     },
     {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
       "name": "in_app_review_platform_interface",
       "version": "2.0.5",
       "dependencies": [
@@ -663,13 +679,6 @@
         "collection",
         "flutter",
         "in_app_purchase_platform_interface"
-      ]
-    },
-    {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
-      "dependencies": [
-        "meta"
       ]
     },
     {

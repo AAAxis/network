@@ -13,40 +13,68 @@ import SwiftUI
     private let VPN_CHANNEL = "com.theholylabs.network/vpn"
     private let FCM_CHANNEL = "com.theholylabs.network/fcm"
     private let PAYWALL_CHANNEL = "com.theholylabs.network/paywall"
+    private let XRAY_CHANNEL = "native_xray"
     
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
         
+        print("📱 iOS AppDelegate: didFinishLaunchingWithOptions called")
+        
         // Don't configure Firebase here - Flutter will do it
         // This prevents the "Firebase app has not yet been configured" warning
         print("🔥 Firebase will be initialized by Flutter")
         
+        print("📦 Registering Flutter plugins...")
         // Register Flutter plugins first
-    GeneratedPluginRegistrant.register(with: self)
+        GeneratedPluginRegistrant.register(with: self)
+        print("✅ Flutter plugins registered")
+        
+        print("🔍 Checking for FlutterViewController...")
+        print("   - Window exists: \(window != nil)")
+        print("   - RootViewController exists: \(window?.rootViewController != nil)")
+        print("   - RootViewController type: \(type(of: window?.rootViewController ?? UIViewController()))")
         
         guard let controller = window?.rootViewController as? FlutterViewController else {
             print("❌ ERROR: Could not get FlutterViewController")
-            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+            print("   Attempting to call super.application anyway...")
+            let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
+            print("   Super returned: \(result)")
+            return result
         }
         
+        print("✅ FlutterViewController found: \(controller)")
+        
         // Setup VPN Method Channel
+        print("🔧 Setting up VPN Method Channel...")
         setupVPNMethodChannel(controller: controller)
         
         // Setup FCM Method Channel
+        print("🔧 Setting up FCM Method Channel...")
         setupFCMMethodChannel(controller: controller)
         
         // Setup Paywall Method Channel
+        print("🔧 Setting up Paywall Method Channel...")
         setupPaywallMethodChannel(controller: controller)
+        
+        // Setup XRay/VLESS Method Channel
+        print("🔧 Setting up XRay/VLESS Method Channel...")
+        setupXRayMethodChannel(controller: controller)
         
         // Configure FCM and notifications AFTER Flutter initializes Firebase
         // We'll do this in a delayed manner to ensure Firebase is ready
+        print("⏰ Scheduling FCM configuration in 1 second...")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            print("⏰ FCM configuration time - calling configureFCMAndNotifications...")
             self.configureFCMAndNotifications()
         }
         
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        print("📱 Calling super.application...")
+        let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        print("✅ super.application returned: \(result)")
+        print("📱 AppDelegate: didFinishLaunchingWithOptions completed")
+        return result
   }
     
     // MARK: - VPN Method Channel
@@ -262,6 +290,62 @@ import SwiftUI
                 } catch {
                     print("❌ Error presenting paywall: \(error)")
                     result(FlutterError(code: "PAYWALL_ERROR", message: error.localizedDescription, details: nil))
+                }
+            }
+            
+        default:
+            result(FlutterMethodNotImplemented)
+        }
+    }
+    
+    // MARK: - XRay/VLESS Method Channel
+    
+    private func setupXRayMethodChannel(controller: FlutterViewController) {
+        let xrayChannel = FlutterMethodChannel(name: XRAY_CHANNEL, binaryMessenger: controller.binaryMessenger)
+        
+        xrayChannel.setMethodCallHandler { [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) in
+            self?.handleXRayMethodCall(call: call, result: result)
+        }
+        
+        // Listen for VPN status changes for VLESS connections
+        NotificationCenter.default.addObserver(
+            forName: .vpnStatusChanged,
+            object: nil,
+            queue: .main
+        ) { notification in
+            if let userInfo = notification.userInfo {
+                xrayChannel.invokeMethod("onVPNStatusChanged", arguments: userInfo)
+            }
+        }
+    }
+    
+    private func handleXRayMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        let xrayManager = XRayManager.shared
+        
+        switch call.method {
+        case "connectVless":
+            guard let args = call.arguments as? [String: Any],
+                  let vlessUri = args["vlessUri"] as? String,
+                  let countryCode = args["countryCode"] as? String,
+                  let countryName = args["countryName"] as? String else {
+                result(FlutterError(code: "INVALID_ARGS", message: "Missing required arguments", details: nil))
+                return
+            }
+            
+            xrayManager.connectVless(vlessUri: vlessUri, countryCode: countryCode, countryName: countryName) { success, error in
+                if success {
+                    result(true)
+                } else {
+                    result(FlutterError(code: "VLESS_CONNECT_ERROR", message: error ?? "Connection failed", details: nil))
+                }
+            }
+            
+        case "disconnectVless":
+            xrayManager.disconnectVless { success, error in
+                if success {
+                    result(true)
+                } else {
+                    result(FlutterError(code: "VLESS_DISCONNECT_ERROR", message: error ?? "Disconnect failed", details: nil))
                 }
             }
             

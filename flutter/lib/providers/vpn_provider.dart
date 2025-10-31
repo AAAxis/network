@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/vpn_server.dart';
 import '../services/native_vpn_service.dart';
-import '../services/native_xray_service.dart';
+import '../services/flutter_v2ray_service.dart';
 import '../services/ip_service.dart';
 import '../services/ads_service.dart';
 import '../services/ad_config_service.dart';
@@ -44,12 +44,23 @@ class VPNProvider with ChangeNotifier {
   Future<void> initialize() async {
     try {
       await NativeVPNService.initialize();
-      await NativeXRayService.initialize();
+      await FlutterV2RayService.initialize();
       
-      // Set up status change listener
+      // Set up status change listener for IPSec VPN
       NativeVPNService.onVPNStatusChanged = (data) {
-        _handleVPNStatusChange(data);
+        // Only handle IPSec VPN status changes here
+        if (_protocolMode == ProtocolMode.ipsec) {
+          _handleVPNStatusChange(data);
+        }
       };
+      
+      // Set up status change listener for V2Ray
+      FlutterV2RayService.setOnStatusChanged((data) {
+        // Only handle V2Ray status changes when in VLESS mode
+        if (_protocolMode == ProtocolMode.vless) {
+          _handleVPNStatusChange(data);
+        }
+      });
       
       // Get initial IP and location
       await _updateCurrentIPInfo();
@@ -341,7 +352,7 @@ class VPNProvider with ChangeNotifier {
     }
   }
 
-  // Perform VLESS connection via XRay (iOS only)
+  // Perform VLESS connection via Flutter V2Ray (cross-platform)
   Future<void> _performVlessConnection() async {
     try {
       _isConnecting = true;
@@ -369,13 +380,13 @@ class VPNProvider with ChangeNotifier {
         try {
           print('🔄 VLESS connection attempt ${retryCount + 1}/$maxRetries');
           
-          final result = await NativeXRayService.connect(
+          final result = await FlutterV2RayService.connect(
             vlessUri: vlessUri,
             countryCode: _selectedServer!.countryCode,
             countryName: _selectedServer!.name,
           );
 
-          print('🔍 VLESS native result: $result');
+          print('🔍 VLESS Flutter V2Ray result: $result');
           
           if (result['success'] as bool) {
             success = true;
@@ -460,7 +471,7 @@ class VPNProvider with ChangeNotifier {
 
       // Call native disconnect based on protocol
       if (_protocolMode == ProtocolMode.vless) {
-        await NativeXRayService.disconnect();
+        await FlutterV2RayService.disconnect();
       } else {
         await NativeVPNService.disconnect();
       }

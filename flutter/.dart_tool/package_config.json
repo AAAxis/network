@@ -176,6 +176,12 @@
       "languageVersion": "3.7"
     },
     {
+      "name": "flutter_v2ray",
+      "rootUri": "file:///Users/admin/.pub-cache/hosted/pub.dev/flutter_v2ray-1.0.10",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "flutter_web_plugins",
       "rootUri": "file:///Users/admin/Documents/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",

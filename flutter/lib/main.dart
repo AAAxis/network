@@ -26,18 +26,23 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  print('🚀 Starting app - main() called');
   WidgetsFlutterBinding.ensureInitialized();
+  print('✅ WidgetsFlutterBinding initialized');
   
   // Initialize Firebase with error handling
+  print('🔥 Attempting to initialize Firebase...');
   try {
-  await Firebase.initializeApp();
+    await Firebase.initializeApp();
     print('✅ Firebase initialized successfully');
     
     // Verify Firebase is ready
     if (Firebase.apps.isEmpty) {
       print('❌ ERROR: Firebase apps list is empty after initialization!');
     } else {
-      print('✅ Firebase app initialized: ${Firebase.app().name}');
+      final app = Firebase.app();
+      print('✅ Firebase app initialized: ${app.name}');
+      print('✅ Firebase options available: ${app.options.projectId}');
     }
   } catch (e, stackTrace) {
     print('❌ CRITICAL ERROR: Failed to initialize Firebase: $e');
@@ -46,24 +51,30 @@ void main() async {
   }
   
   // Initialize Firebase ad configuration FIRST (before any ads are created)
+  print('📊 Initializing Firebase ad config...');
   try {
     await AdConfigService.initialize();
-  print('✅ Firebase ad config initialized early');
+    print('✅ Firebase ad config initialized early');
   } catch (e) {
     print('❌ ERROR: Failed to initialize Firebase ad config: $e');
   }
   
   // Initialize Firebase Cloud Messaging (notifications work immediately)
+  print('📱 Setting up FCM...');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FCMService.initialize();
+  print('✅ FCM initialized');
   
   // DON'T initialize Google Mobile Ads here - will be done in onboarding
   // This prevents the "Discover networks" prompt on app start
   
   // Initialize Ads Service (won't initialize AdMob until onboarding)
+  print('📢 Initializing Ads Service...');
   await AdsService.initialize();
+  print('✅ Ads Service initialized');
   
   // Initialize RevenueCat FIRST (required before BillingService)
+  print('💳 Initializing RevenueCat...');
   await Purchases.setLogLevel(LogLevel.debug);
   PurchasesConfiguration configuration = PurchasesConfiguration(AppConstants.revenueCatApiKey);
   await Purchases.configure(configuration);
@@ -71,12 +82,16 @@ void main() async {
   
   // Initialize Google Play Billing (required for subscriptions)
   // Must be called AFTER RevenueCat is configured
+  print('🛒 Initializing Billing Service...');
   await BillingService().initialize();
+  print('✅ Billing Service initialized');
   
   // Request permissions (but not VPN as it doesn't exist in permission_handler)
   // VPN permission will be handled natively
   
+  print('🎬 Running app...');
   runApp(const VPNApp());
+  print('✅ App running');
 }
 
 class VPNApp extends StatelessWidget {

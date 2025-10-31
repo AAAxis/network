@@ -14,6 +14,7 @@ ${BUILT_PRODUCTS_DIR}/PurchasesHybridCommon/PurchasesHybridCommon.framework
 ${BUILT_PRODUCTS_DIR}/PurchasesHybridCommonUI/PurchasesHybridCommonUI.framework
 ${BUILT_PRODUCTS_DIR}/RevenueCat/RevenueCat.framework
 ${BUILT_PRODUCTS_DIR}/RevenueCatUI/RevenueCatUI.framework
+${BUILT_PRODUCTS_DIR}/flutter_v2ray/flutter_v2ray.framework
 ${BUILT_PRODUCTS_DIR}/in_app_purchase_storekit/in_app_purchase_storekit.framework
 ${BUILT_PRODUCTS_DIR}/in_app_review/in_app_review.framework
 ${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework

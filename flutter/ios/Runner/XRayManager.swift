@@ -221,27 +221,56 @@ class XRayManager: NSObject {
     private func configureVPN(manager: NEVPNManager, xrayConfig: Data, countryName: String, completion: @escaping (Bool, String?) -> Void) {
         // Create packet tunnel protocol configuration
         let tunnelProtocol = NETunnelProviderProtocol()
-        tunnelProtocol.serverAddress = "127.0.0.1"
-        tunnelProtocol.username = ""
-        tunnelProtocol.passwordReference = nil
         
-        // Store XRay config in provider configuration
+        // Server address must be a valid hostname/IP - use a placeholder that won't actually connect
+        // The actual routing happens in the PacketTunnelProvider
+        tunnelProtocol.serverAddress = "vless.tunnel" // Can be any valid hostname
+        
+        // Store XRay config in provider configuration (as Data for security)
         tunnelProtocol.providerConfiguration = [
             "xrayConfig": xrayConfig
         ]
         
-        // NOTE: The packet tunnel provider bundle identifier must match your app's extension
-        // Update this to match your actual packet tunnel extension bundle ID
+        // NOTE: The packet tunnel provider bundle identifier must match your app's extension target
+        // This must match the bundle identifier of the PacketTunnelProvider extension target
         tunnelProtocol.providerBundleIdentifier = "com.theholylabs.network.PacketTunnelProvider"
+        
+        // Validate that all required properties are set
+        guard let providerBundleId = tunnelProtocol.providerBundleIdentifier, !providerBundleId.isEmpty else {
+            completion(false, "Provider bundle identifier is required")
+            return
+        }
         
         manager.protocolConfiguration = tunnelProtocol
         manager.isEnabled = true
         manager.localizedDescription = "Rock VPN - \(countryName) (VLESS)"
         
+        print("📋 Configuring VPN with:")
+        print("   - Server Address: \(tunnelProtocol.serverAddress ?? "nil")")
+        print("   - Provider Bundle ID: \(tunnelProtocol.providerBundleIdentifier)")
+        print("   - Config Size: \(xrayConfig.count) bytes")
+        
         // Save the configuration
         manager.saveToPreferences { error in
             if let error = error {
-                completion(false, "Failed to save VPN configuration: \(error.localizedDescription)")
+                let errorMessage = error.localizedDescription
+                print("❌ Failed to save VPN configuration: \(errorMessage)")
+                
+                if errorMessage.contains("Missing protocol") || errorMessage.contains("invalid type") {
+                    print("⚠️ CRITICAL: PacketTunnelProvider extension target is missing!")
+                    print("📋 To fix this, you need to add a Network Extension target in Xcode:")
+                    print("   1. Open Runner.xcworkspace in Xcode")
+                    print("   2. File → New → Target")
+                    print("   3. Select 'Network Extension' → Next")
+                    print("   4. Product Name: PacketTunnelProvider")
+                    print("   5. Bundle ID: \(tunnelProtocol.providerBundleIdentifier)")
+                    print("   6. Language: Swift")
+                    print("   7. Replace generated files with existing PacketTunnelProvider.swift")
+                    print("   8. Add the extension's entitlements file")
+                    print("   9. Ensure extension is embedded in Runner app target")
+                }
+                
+                completion(false, "Failed to save VPN configuration: \(errorMessage). Make sure PacketTunnelProvider extension target is added to Xcode project.")
             } else {
                 print("✅ VPN configured for VLESS: \(countryName)")
                 completion(true, nil)

@@ -107,10 +107,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   height: 120,
                   child: ClipOval(
                     child: Image.asset(
-                      'assets/ic_launcher_round.png',
+                      'assets/appstore.png',
                       width: 120,
                       height: 120,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('❌ Error loading app icon: $error');
+                        return Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[800],
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.vpn_lock,
+                            size: 60,
+                            color: Colors.green,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

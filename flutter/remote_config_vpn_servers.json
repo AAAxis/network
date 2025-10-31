@@ -1,0 +1,38 @@
+[
+  {
+    "id": "usa1",
+    "name": "United States",
+    "country_code": "US",
+    "country_name": "United States",
+    "city": "New York",
+    "server_address": "100.27.219.206",
+    "is_premium": true,
+    "active": true,
+    "status": "available",
+    "flag": "🇺🇸"
+  },
+  {
+    "id": "germany1",
+    "name": "Germany",
+    "country_code": "DE",
+    "country_name": "Germany",
+    "city": "Berlin",
+    "server_address": "63.177.122.217",
+    "is_premium": false,
+    "active": true,
+    "status": "available",
+    "flag": "🇩🇪"
+  },
+  {
+    "id": "israel11",
+    "name": "Israel",
+    "country_code": "IL",
+    "country_name": "Israel",
+    "city": "Tel Aviv",
+    "server_address": "91.98.153.172",
+    "is_premium": false,
+    "active": true,
+    "status": "available",
+    "flag": "🇮🇱"
+  }
+]

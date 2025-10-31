@@ -1,0 +1,54 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target arm64-apple-ios17.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name XRayVPNFramework
+import Combine
+import CryptoKit
+import DeveloperToolsSupport
+import Foundation
+import NetworkExtension
+import StoreKit
+import Swift
+import SwiftUI
+import UIKit
+import WebKit
+@_exported import XRayVPNFramework
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public protocol SubscriptionServiceProtocol {
+  var statusSubject: Combine.CurrentValueSubject<XRayVPNFramework.SubscriptionStatus, Swift.Never> { get }
+  @_Concurrency.MainActor func showPaywall()
+  func updateSubscriptionStatus() async throws
+}
+public struct CurrentPlanInfo {
+  public let daysRemaining: Swift.Int
+  public let planTitle: Swift.String
+  public init(daysRemaining: Swift.Int, planTitle: Swift.String)
+}
+public enum SubscriptionStatus {
+  case active(XRayVPNFramework.CurrentPlanInfo)
+  case expired
+  case unknown
+  public var hasSubscription: Swift.Bool {
+    get
+  }
+}
+public protocol VPNServiceProtocol {
+  var status: Combine.AnyPublisher<NetworkExtension.NEVPNStatus, Swift.Never> { get }
+  var connectedDate: Foundation.Date? { get }
+  @discardableResult
+  func connect() async -> Swift.Bool
+  func disconnect()
+}
+public enum XRayVPN {
+  public static var vpnService: any XRayVPNFramework.VPNServiceProtocol {
+    get
+  }
+  public static var subscriptionService: any XRayVPNFramework.SubscriptionServiceProtocol {
+    get
+  }
+  public static var isUser: Swift.Bool {
+    get
+  }
+  public static func initialize(appGroup: Swift.String, tunnelBundleId: Swift.String, shouldShowAppRater: Swift.Bool = true, completion: @escaping (@_Concurrency.MainActor () -> Swift.Void)) async
+}

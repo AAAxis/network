@@ -1,0 +1,6 @@
+framework module XRayVPNFramework {
+  umbrella header "XRayVPNFramework.h"
+  export *
+
+  module * { export * }
+}

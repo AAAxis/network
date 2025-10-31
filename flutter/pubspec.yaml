@@ -1,0 +1,46 @@
+name: vpn_app
+description: A VPN application built with Flutter
+publish_to: 'none'
+version: 1.2.0+12
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Firebase
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.6
+  firebase_remote_config: ^5.1.6
+  
+  # UI & State Management
+  provider: ^6.1.2
+  cupertino_icons: ^1.0.8
+  
+  # Ads
+  google_mobile_ads: ^5.1.0
+  
+  # Purchases
+  purchases_flutter: ^9.2.0
+  purchases_ui_flutter: ^9.2.0
+  in_app_purchase: ^3.2.0
+  in_app_review: ^2.0.7
+  
+  # Utilities
+  shared_preferences: ^2.3.2
+  permission_handler: ^11.3.1
+  http: ^1.2.2
+  url_launcher: ^6.3.2
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+

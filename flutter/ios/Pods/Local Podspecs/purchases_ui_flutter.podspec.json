@@ -1,0 +1,32 @@
+{
+  "name": "purchases_ui_flutter",
+  "version": "9.9.1",
+  "summary": "Flutter plugin that integrates RevenueCat Paywalls",
+  "description": "Flutter plugin that integrates RevenueCat Paywalls",
+  "homepage": "http://revenuecat.com",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "RevenueCat": "support@revenuecat.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "purchases_ui_flutter/Sources/purchases_ui_flutter/**/*.swift",
+  "dependencies": {
+    "Flutter": [],
+    "PurchasesHybridCommonUI": [
+      "17.12.0"
+    ]
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386"
+  },
+  "swift_versions": "5.0",
+  "swift_version": "5.0"
+}

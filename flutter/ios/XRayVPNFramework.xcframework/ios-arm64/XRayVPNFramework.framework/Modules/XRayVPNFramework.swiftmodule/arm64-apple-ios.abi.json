@@ -1,0 +1,1371 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "XRayVPNFramework",
+    "printedName": "XRayVPNFramework",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Combine",
+        "printedName": "Combine",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Combine",
+        "printedName": "Combine",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "WebKit",
+        "printedName": "WebKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SubscriptionServiceProtocol",
+        "printedName": "SubscriptionServiceProtocol",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "statusSubject",
+            "printedName": "statusSubject",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CurrentValueSubject",
+                "printedName": "Combine.CurrentValueSubject<XRayVPNFramework.SubscriptionStatus, Swift.Never>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SubscriptionStatus",
+                    "printedName": "XRayVPNFramework.SubscriptionStatus",
+                    "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Never",
+                    "printedName": "Swift.Never",
+                    "usr": "s:s5NeverO"
+                  }
+                ],
+                "usr": "s:7Combine19CurrentValueSubjectC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP13statusSubject7Combine012CurrentValueG0CyAA0C6StatusOs5NeverOGvp",
+            "mangledName": "$s16XRayVPNFramework27SubscriptionServiceProtocolP13statusSubject7Combine012CurrentValueG0CyAA0C6StatusOs5NeverOGvp",
+            "moduleName": "XRayVPNFramework",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CurrentValueSubject",
+                    "printedName": "Combine.CurrentValueSubject<XRayVPNFramework.SubscriptionStatus, Swift.Never>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SubscriptionStatus",
+                        "printedName": "XRayVPNFramework.SubscriptionStatus",
+                        "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Never",
+                        "printedName": "Swift.Never",
+                        "usr": "s:s5NeverO"
+                      }
+                    ],
+                    "usr": "s:7Combine19CurrentValueSubjectC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP13statusSubject7Combine012CurrentValueG0CyAA0C6StatusOs5NeverOGvg",
+                "mangledName": "$s16XRayVPNFramework27SubscriptionServiceProtocolP13statusSubject7Combine012CurrentValueG0CyAA0C6StatusOs5NeverOGvg",
+                "moduleName": "XRayVPNFramework",
+                "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.SubscriptionServiceProtocol>",
+                "sugared_genericSig": "<Self where Self : XRayVPNFramework.SubscriptionServiceProtocol>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "showPaywall",
+            "printedName": "showPaywall()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP11showPaywallyyF",
+            "mangledName": "$s16XRayVPNFramework27SubscriptionServiceProtocolP11showPaywallyyF",
+            "moduleName": "XRayVPNFramework",
+            "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.SubscriptionServiceProtocol>",
+            "sugared_genericSig": "<Self where Self : XRayVPNFramework.SubscriptionServiceProtocol>",
+            "protocolReq": true,
+            "declAttributes": [
+              "Custom"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "updateSubscriptionStatus",
+            "printedName": "updateSubscriptionStatus()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP06updateC6StatusyyYaKF",
+            "mangledName": "$s16XRayVPNFramework27SubscriptionServiceProtocolP06updateC6StatusyyYaKF",
+            "moduleName": "XRayVPNFramework",
+            "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.SubscriptionServiceProtocol>",
+            "sugared_genericSig": "<Self where Self : XRayVPNFramework.SubscriptionServiceProtocol>",
+            "protocolReq": true,
+            "throwing": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP",
+        "mangledName": "$s16XRayVPNFramework27SubscriptionServiceProtocolP",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CurrentPlanInfo",
+        "printedName": "CurrentPlanInfo",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "daysRemaining",
+            "printedName": "daysRemaining",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework15CurrentPlanInfoV13daysRemainingSivp",
+            "mangledName": "$s16XRayVPNFramework15CurrentPlanInfoV13daysRemainingSivp",
+            "moduleName": "XRayVPNFramework",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework15CurrentPlanInfoV13daysRemainingSivg",
+                "mangledName": "$s16XRayVPNFramework15CurrentPlanInfoV13daysRemainingSivg",
+                "moduleName": "XRayVPNFramework",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "planTitle",
+            "printedName": "planTitle",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework15CurrentPlanInfoV9planTitleSSvp",
+            "mangledName": "$s16XRayVPNFramework15CurrentPlanInfoV9planTitleSSvp",
+            "moduleName": "XRayVPNFramework",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework15CurrentPlanInfoV9planTitleSSvg",
+                "mangledName": "$s16XRayVPNFramework15CurrentPlanInfoV9planTitleSSvg",
+                "moduleName": "XRayVPNFramework",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(daysRemaining:planTitle:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CurrentPlanInfo",
+                "printedName": "XRayVPNFramework.CurrentPlanInfo",
+                "usr": "s:16XRayVPNFramework15CurrentPlanInfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16XRayVPNFramework15CurrentPlanInfoV13daysRemaining9planTitleACSi_SStcfc",
+            "mangledName": "$s16XRayVPNFramework15CurrentPlanInfoV13daysRemaining9planTitleACSi_SStcfc",
+            "moduleName": "XRayVPNFramework",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:16XRayVPNFramework15CurrentPlanInfoV",
+        "mangledName": "$s16XRayVPNFramework15CurrentPlanInfoV",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SubscriptionStatus",
+        "printedName": "SubscriptionStatus",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "active",
+            "printedName": "active",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XRayVPNFramework.SubscriptionStatus.Type) -> (XRayVPNFramework.CurrentPlanInfo) -> XRayVPNFramework.SubscriptionStatus",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(XRayVPNFramework.CurrentPlanInfo) -> XRayVPNFramework.SubscriptionStatus",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SubscriptionStatus",
+                        "printedName": "XRayVPNFramework.SubscriptionStatus",
+                        "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CurrentPlanInfo",
+                        "printedName": "XRayVPNFramework.CurrentPlanInfo",
+                        "usr": "s:16XRayVPNFramework15CurrentPlanInfoV"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XRayVPNFramework.SubscriptionStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SubscriptionStatus",
+                        "printedName": "XRayVPNFramework.SubscriptionStatus",
+                        "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16XRayVPNFramework18SubscriptionStatusO6activeyAcA15CurrentPlanInfoVcACmF",
+            "mangledName": "$s16XRayVPNFramework18SubscriptionStatusO6activeyAcA15CurrentPlanInfoVcACmF",
+            "moduleName": "XRayVPNFramework"
+          },
+          {
+            "kind": "Var",
+            "name": "expired",
+            "printedName": "expired",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XRayVPNFramework.SubscriptionStatus.Type) -> XRayVPNFramework.SubscriptionStatus",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SubscriptionStatus",
+                    "printedName": "XRayVPNFramework.SubscriptionStatus",
+                    "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XRayVPNFramework.SubscriptionStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SubscriptionStatus",
+                        "printedName": "XRayVPNFramework.SubscriptionStatus",
+                        "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16XRayVPNFramework18SubscriptionStatusO7expiredyA2CmF",
+            "mangledName": "$s16XRayVPNFramework18SubscriptionStatusO7expiredyA2CmF",
+            "moduleName": "XRayVPNFramework"
+          },
+          {
+            "kind": "Var",
+            "name": "unknown",
+            "printedName": "unknown",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XRayVPNFramework.SubscriptionStatus.Type) -> XRayVPNFramework.SubscriptionStatus",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SubscriptionStatus",
+                    "printedName": "XRayVPNFramework.SubscriptionStatus",
+                    "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XRayVPNFramework.SubscriptionStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SubscriptionStatus",
+                        "printedName": "XRayVPNFramework.SubscriptionStatus",
+                        "usr": "s:16XRayVPNFramework18SubscriptionStatusO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16XRayVPNFramework18SubscriptionStatusO7unknownyA2CmF",
+            "mangledName": "$s16XRayVPNFramework18SubscriptionStatusO7unknownyA2CmF",
+            "moduleName": "XRayVPNFramework"
+          },
+          {
+            "kind": "Var",
+            "name": "hasSubscription",
+            "printedName": "hasSubscription",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework18SubscriptionStatusO03hasC0Sbvp",
+            "mangledName": "$s16XRayVPNFramework18SubscriptionStatusO03hasC0Sbvp",
+            "moduleName": "XRayVPNFramework",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework18SubscriptionStatusO03hasC0Sbvg",
+                "mangledName": "$s16XRayVPNFramework18SubscriptionStatusO03hasC0Sbvg",
+                "moduleName": "XRayVPNFramework",
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:16XRayVPNFramework18SubscriptionStatusO",
+        "mangledName": "$s16XRayVPNFramework18SubscriptionStatusO",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Combine",
+        "printedName": "Combine",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "NetworkExtension",
+        "printedName": "NetworkExtension",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Combine",
+        "printedName": "Combine",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "NetworkExtension",
+        "printedName": "NetworkExtension",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "VPNServiceProtocol",
+        "printedName": "VPNServiceProtocol",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "status",
+            "printedName": "status",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AnyPublisher",
+                "printedName": "Combine.AnyPublisher<NetworkExtension.NEVPNStatus, Swift.Never>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NEVPNStatus",
+                    "printedName": "NetworkExtension.NEVPNStatus",
+                    "usr": "c:@E@NEVPNStatus"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Never",
+                    "printedName": "Swift.Never",
+                    "usr": "s:s5NeverO"
+                  }
+                ],
+                "usr": "s:7Combine12AnyPublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework18VPNServiceProtocolP6status7Combine12AnyPublisherVySo11NEVPNStatusVs5NeverOGvp",
+            "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP6status7Combine12AnyPublisherVySo11NEVPNStatusVs5NeverOGvp",
+            "moduleName": "XRayVPNFramework",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AnyPublisher",
+                    "printedName": "Combine.AnyPublisher<NetworkExtension.NEVPNStatus, Swift.Never>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NEVPNStatus",
+                        "printedName": "NetworkExtension.NEVPNStatus",
+                        "usr": "c:@E@NEVPNStatus"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Never",
+                        "printedName": "Swift.Never",
+                        "usr": "s:s5NeverO"
+                      }
+                    ],
+                    "usr": "s:7Combine12AnyPublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework18VPNServiceProtocolP6status7Combine12AnyPublisherVySo11NEVPNStatusVs5NeverOGvg",
+                "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP6status7Combine12AnyPublisherVySo11NEVPNStatusVs5NeverOGvg",
+                "moduleName": "XRayVPNFramework",
+                "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.VPNServiceProtocol>",
+                "sugared_genericSig": "<Self where Self : XRayVPNFramework.VPNServiceProtocol>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "connectedDate",
+            "printedName": "connectedDate",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Date?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Date",
+                    "printedName": "Foundation.Date",
+                    "usr": "s:10Foundation4DateV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework18VPNServiceProtocolP13connectedDate10Foundation0F0VSgvp",
+            "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP13connectedDate10Foundation0F0VSgvp",
+            "moduleName": "XRayVPNFramework",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Foundation.Date?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Date",
+                        "printedName": "Foundation.Date",
+                        "usr": "s:10Foundation4DateV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework18VPNServiceProtocolP13connectedDate10Foundation0F0VSgvg",
+                "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP13connectedDate10Foundation0F0VSgvg",
+                "moduleName": "XRayVPNFramework",
+                "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.VPNServiceProtocol>",
+                "sugared_genericSig": "<Self where Self : XRayVPNFramework.VPNServiceProtocol>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "connect",
+            "printedName": "connect()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16XRayVPNFramework18VPNServiceProtocolP7connectSbyYaF",
+            "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP7connectSbyYaF",
+            "moduleName": "XRayVPNFramework",
+            "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.VPNServiceProtocol>",
+            "sugared_genericSig": "<Self where Self : XRayVPNFramework.VPNServiceProtocol>",
+            "protocolReq": true,
+            "declAttributes": [
+              "DiscardableResult"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "disconnect",
+            "printedName": "disconnect()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16XRayVPNFramework18VPNServiceProtocolP10disconnectyyF",
+            "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP10disconnectyyF",
+            "moduleName": "XRayVPNFramework",
+            "genericSig": "<τ_0_0 where τ_0_0 : XRayVPNFramework.VPNServiceProtocol>",
+            "sugared_genericSig": "<Self where Self : XRayVPNFramework.VPNServiceProtocol>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:16XRayVPNFramework18VPNServiceProtocolP",
+        "mangledName": "$s16XRayVPNFramework18VPNServiceProtocolP",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "StoreKit",
+        "printedName": "StoreKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "XRayVPN",
+        "printedName": "XRayVPN",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "vpnService",
+            "printedName": "vpnService",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "VPNServiceProtocol",
+                "printedName": "any XRayVPNFramework.VPNServiceProtocol",
+                "usr": "s:16XRayVPNFramework18VPNServiceProtocolP"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework0A3VPNO10vpnServiceAA18VPNServiceProtocol_pvpZ",
+            "mangledName": "$s16XRayVPNFramework0A3VPNO10vpnServiceAA18VPNServiceProtocol_pvpZ",
+            "moduleName": "XRayVPNFramework",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "VPNServiceProtocol",
+                    "printedName": "any XRayVPNFramework.VPNServiceProtocol",
+                    "usr": "s:16XRayVPNFramework18VPNServiceProtocolP"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework0A3VPNO10vpnServiceAA18VPNServiceProtocol_pvgZ",
+                "mangledName": "$s16XRayVPNFramework0A3VPNO10vpnServiceAA18VPNServiceProtocol_pvgZ",
+                "moduleName": "XRayVPNFramework",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "subscriptionService",
+            "printedName": "subscriptionService",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SubscriptionServiceProtocol",
+                "printedName": "any XRayVPNFramework.SubscriptionServiceProtocol",
+                "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework0A3VPNO19subscriptionServiceAA012SubscriptionE8Protocol_pvpZ",
+            "mangledName": "$s16XRayVPNFramework0A3VPNO19subscriptionServiceAA012SubscriptionE8Protocol_pvpZ",
+            "moduleName": "XRayVPNFramework",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SubscriptionServiceProtocol",
+                    "printedName": "any XRayVPNFramework.SubscriptionServiceProtocol",
+                    "usr": "s:16XRayVPNFramework27SubscriptionServiceProtocolP"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework0A3VPNO19subscriptionServiceAA012SubscriptionE8Protocol_pvgZ",
+                "mangledName": "$s16XRayVPNFramework0A3VPNO19subscriptionServiceAA012SubscriptionE8Protocol_pvgZ",
+                "moduleName": "XRayVPNFramework",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "isUser",
+            "printedName": "isUser",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16XRayVPNFramework0A3VPNO6isUserSbvpZ",
+            "mangledName": "$s16XRayVPNFramework0A3VPNO6isUserSbvpZ",
+            "moduleName": "XRayVPNFramework",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16XRayVPNFramework0A3VPNO6isUserSbvgZ",
+                "mangledName": "$s16XRayVPNFramework0A3VPNO6isUserSbvgZ",
+                "moduleName": "XRayVPNFramework",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "initialize",
+            "printedName": "initialize(appGroup:tunnelBundleId:shouldShowAppRater:completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "hasDefaultArg": true,
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "() -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16XRayVPNFramework0A3VPNO10initialize8appGroup14tunnelBundleId18shouldShowAppRater10completionySS_SSSbyyScMYcctYaFZ",
+            "mangledName": "$s16XRayVPNFramework0A3VPNO10initialize8appGroup14tunnelBundleId18shouldShowAppRater10completionySS_SSSbyyScMYcctYaFZ",
+            "moduleName": "XRayVPNFramework",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:16XRayVPNFramework0A3VPNO",
+        "mangledName": "$s16XRayVPNFramework0A3VPNO",
+        "moduleName": "XRayVPNFramework",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      },
+      {
+        "kind": "Import",
+        "name": "DeveloperToolsSupport",
+        "printedName": "DeveloperToolsSupport",
+        "declKind": "Import",
+        "moduleName": "XRayVPNFramework"
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 260,
+      "length": 4,
+      "value": "0x33"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 267,
+      "length": 4,
+      "value": "0xff"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 280,
+      "length": 4,
+      "value": "0x80"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 287,
+      "length": 4,
+      "value": "0xff"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 299,
+      "length": 4,
+      "value": "0xfe"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 306,
+      "length": 4,
+      "value": "0xff"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallViewModel.swift",
+      "kind": "BooleanLiteral",
+      "offset": 252,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallViewModel.swift",
+      "kind": "Array",
+      "offset": 307,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallViewModel.swift",
+      "kind": "BooleanLiteral",
+      "offset": 449,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallViewModel.swift",
+      "kind": "Array",
+      "offset": 499,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Presentation\/Paywall\/PaywallViewModel.swift",
+      "kind": "IntegerLiteral",
+      "offset": 546,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/DefaultsService.swift",
+      "kind": "StringLiteral",
+      "offset": 869,
+      "length": 13,
+      "value": "\"ratingShown\""
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/DefaultsService.swift",
+      "kind": "StringLiteral",
+      "offset": 935,
+      "length": 18,
+      "value": "\"keychainDeviceId\""
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/DeviceIDService.swift",
+      "kind": "StringLiteral",
+      "offset": 186,
+      "length": 10,
+      "value": "\"deviceID\""
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/DeviceIDService.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2209,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/V2RayService.swift",
+      "kind": "StringLiteral",
+      "offset": 2014,
+      "length": 14,
+      "value": "\"Personal VPN\""
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/V2RayService.swift",
+      "kind": "Array",
+      "offset": 2116,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/Services\/VPNService.swift",
+      "kind": "BooleanLiteral",
+      "offset": 802,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Desktop\/GAS\/GWNativeVPN\/XRayVPNFramework\/XRayVPN.swift",
+      "kind": "BooleanLiteral",
+      "offset": 573,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Library\/Developer\/Xcode\/DerivedData\/XRayVPNFramework-asicjwsqpugmxyapgzxucpkhwkmd\/Build\/Intermediates.noindex\/ArchiveIntermediates\/XRayVPNFramework\/IntermediateBuildFilesPath\/XRayVPNFramework.build\/Release-iphoneos\/XRayVPNFramework.build\/DerivedSources\/GeneratedAssetSymbols.swift",
+      "kind": "StringLiteral",
+      "offset": 830,
+      "length": 14,
+      "value": "\"externalLink\""
+    },
+    {
+      "filePath": "\/Users\/antonshelar\/Library\/Developer\/Xcode\/DerivedData\/XRayVPNFramework-asicjwsqpugmxyapgzxucpkhwkmd\/Build\/Intermediates.noindex\/ArchiveIntermediates\/XRayVPNFramework\/IntermediateBuildFilesPath\/XRayVPNFramework.build\/Release-iphoneos\/XRayVPNFramework.build\/DerivedSources\/GeneratedAssetSymbols.swift",
+      "kind": "StringLiteral",
+      "offset": 1010,
+      "length": 19,
+      "value": "\"paywallBackground\""
+    }
+  ]
+}

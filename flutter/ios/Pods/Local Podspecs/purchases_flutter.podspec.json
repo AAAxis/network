@@ -1,0 +1,34 @@
+{
+  "name": "purchases_flutter",
+  "version": "9.9.1",
+  "summary": "Cross-platform subscriptions framework for Flutter.",
+  "description": "Client for the RevenueCat subscription and purchase tracking system, making implementing in-app subscriptions in Flutter easy - receipt validation and status tracking included!",
+  "homepage": "http://revenuecat.com",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "RevenueCat": "support@revenuecat.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "purchases_flutter/Sources/purchases_flutter/**/*.{h,m}",
+  "public_header_files": "purchases_flutter/Sources/purchases_flutter/include/**/*.h",
+  "dependencies": {
+    "Flutter": [],
+    "PurchasesHybridCommon": [
+      "17.12.0"
+    ]
+  },
+  "platforms": {
+    "ios": "13.0"
+  },
+  "swift_versions": "5.0",
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386",
+    "OTHER_LDFLAGS": "-framework RevenueCat"
+  },
+  "swift_version": "5.0"
+}

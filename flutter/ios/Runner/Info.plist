@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>VPN</string>
+	<string>Rock - VPN &amp; Proxy</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,15 +13,15 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>VPN</string>
+	<string>Rock - VPN &amp; Proxy</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>13</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -47,6 +47,22 @@
 	</array>
 	<key>NSNetworkExtensionUsageDescription</key>
 	<string>This app uses VPN to provide secure network connectivity.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+		<string>telegram</string>
+		<string>ss</string>
+		<string>ssconf</string>
+		<string>v2rayTun</string>
+		<string>v2box</string>
+		<string>vless</string>
+		<string>vmess</string>
+		<string>vkvideo</string>
+		<string>yandexauth</string>
+		<string>ymaps</string>
+		<string>gosuslugi</string>
+		<string>wildberries</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -78,6 +94,7 @@
 	<true/>
 </dict>
 </plist>
+
 
 
 

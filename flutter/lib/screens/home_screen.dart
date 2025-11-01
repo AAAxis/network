@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _initializeApp() async {
+    // Check if widget is still mounted before proceeding
+    if (!mounted) return;
+    
     // Initialize providers
     // Subscription provider initializes itself in constructor
     
@@ -41,11 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
     await serverProvider.loadFavorites();
     await serverProvider.fetchServersFromFirebase();
     
+    if (!mounted) return;
     await context.read<VPNProvider>().initialize();
     
     // Sync selected server between providers
+    if (!mounted) return;
     final vpnProvider = context.read<VPNProvider>();
-    vpnProvider.setSelectedServer(serverProvider.selectedServer);
+    if (serverProvider.selectedServer != null) {
+      vpnProvider.setSelectedServer(serverProvider.selectedServer!);
+    }
     
     // Load server change count for review prompt
     await _loadServerChangeCount();
@@ -76,9 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
@@ -91,30 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.black,
         elevation: 0,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Consumer<VPNProvider>(
-            builder: (context, vpnProvider, _) {
-              return Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: TabBar(
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.grey[500],
-                  indicatorColor: Colors.green,
-                  isScrollable: true,
-                  onTap: (index) {
-                    vpnProvider.setProtocolMode(index == 0 ? ProtocolMode.ipsec : ProtocolMode.vless);
-                  },
-                  tabs: const [
-                    Tab(text: 'Classic'),
-                    Tab(text: 'Vless beta'),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
         actions: [
           Builder(
             builder: (context) => IconButton(
@@ -140,15 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const SizedBox(height: 40),
                       
-                      // Label protocol
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          vpnProvider.protocolMode == ProtocolMode.vless ? 'VLESS mode' : 'Classic mode',
-                          style: TextStyle(color: Colors.grey[400], fontSize: 14),
-                        ),
-                      ),
                       const SizedBox(height: 12),
+                      
+                      // Protocol Selector (iOS only)
+                      if (Platform.isIOS && !vpnProvider.isConnected)
+                        _buildProtocolSelector(context, vpnProvider),
+                      
+                      const SizedBox(height: 24),
 
                       // Large Connect/Disconnect Button
                       VPNConnectButton(
@@ -320,7 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         },
-        ),
       ),
     );
   }
@@ -369,5 +348,89 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       print('❌ Premium paywall was dismissed or failed');
     }
+  }
+  
+  Widget _buildProtocolSelector(BuildContext context, VPNProvider vpnProvider) {
+    final isVLESS = vpnProvider.protocolMode == ProtocolMode.vless;
+    final isIPSec = vpnProvider.protocolMode == ProtocolMode.ipsec;
+    
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                vpnProvider.setProtocolMode(ProtocolMode.ipsec);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: isIPSec ? Colors.green : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.vpn_key,
+                      color: isIPSec ? Colors.white : Colors.grey[400],
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'IPSec',
+                      style: TextStyle(
+                        color: isIPSec ? Colors.white : Colors.grey[400],
+                        fontWeight: isIPSec ? FontWeight.bold : FontWeight.normal,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                vpnProvider.setProtocolMode(ProtocolMode.vless);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: isVLESS ? Colors.blue : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.bolt,
+                      color: isVLESS ? Colors.white : Colors.grey[400],
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'VLESS',
+                      style: TextStyle(
+                        color: isVLESS ? Colors.white : Colors.grey[400],
+                        fontWeight: isVLESS ? FontWeight.bold : FontWeight.normal,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

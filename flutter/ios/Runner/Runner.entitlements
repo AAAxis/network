@@ -12,10 +12,16 @@
 		<string>app-proxy-provider</string>
 		<string>content-filter-provider</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.theholylabs.network</string>
+	</array>
 	<key>aps-environment</key>
 	<string>development</string>
 </dict>
 </plist>
+
+
 
 
 

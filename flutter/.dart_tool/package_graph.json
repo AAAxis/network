@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "vpn_app",
-      "version": "1.2.0+12",
+      "version": "1.6.0+16",
       "dependencies": [
         "cupertino_icons",
         "firebase_core",

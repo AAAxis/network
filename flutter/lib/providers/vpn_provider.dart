@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class VPNProvider with ChangeNotifier {
   DateTime? _connectionStartTime;
 
   // Protocol mode
-  ProtocolMode _protocolMode = ProtocolMode.ipsec;
+  ProtocolMode _protocolMode = Platform.isIOS ? ProtocolMode.ipsec : ProtocolMode.ipsec; // Force IPSec on Android (VLESS iOS-only)
 
   // Getters
   bool get isConnected => _isConnected;
@@ -36,7 +37,13 @@ class VPNProvider with ChangeNotifier {
   ProtocolMode get protocolMode => _protocolMode;
 
   void setProtocolMode(ProtocolMode mode) {
-    _protocolMode = mode;
+    // Force IPSec on Android (VLESS is iOS-only)
+    if (Platform.isAndroid && mode == ProtocolMode.vless) {
+      print('⚠️ VLESS/XRay is currently only supported on iOS');
+      _protocolMode = ProtocolMode.ipsec;
+    } else {
+      _protocolMode = mode;
+    }
     notifyListeners();
   }
 

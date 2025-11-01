@@ -181,7 +181,7 @@ class _ServerSelectorState extends State<ServerSelector> {
                   itemCount: servers.length,
                   itemBuilder: (context, index) {
                     final server = servers[index];
-                    final isSelected = server.id == serverProvider.selectedServer.id;
+                    final isSelected = serverProvider.selectedServer?.id == server.id;
                     final isAccessible = !server.isPremium || subscriptionProvider.isSubscribed;
                     
                     return _buildServerItem(

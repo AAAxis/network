@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "101707670627",
+    "project_id": "voice-85bc0",
+    "storage_bucket": "voice-85bc0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101707670627:android:0c9c4ebed84892aff10456",
+        "android_client_info": {
+          "package_name": "com.theholylabs.rock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101707670627-fsmffoaq027ngslg204sk7q3k9m9sh20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh27CDANcwDY954P0tM3bzUqwyESki-xc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101707670627-fsmffoaq027ngslg204sk7q3k9m9sh20.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "101707670627-ah1m3f7giesibk38rqiqt96in4g9kjbr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.theholylabs.iptv"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

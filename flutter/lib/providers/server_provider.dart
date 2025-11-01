@@ -7,8 +7,8 @@ import '../services/firebase_service.dart';
 import 'vpn_provider.dart';
 
 class ServerProvider with ChangeNotifier {
-  List<VPNServer> _availableServers = VPNServer.fallbackServers;
-  VPNServer _selectedServer = VPNServer.fallbackServers.first;
+  List<VPNServer> _availableServers = [];
+  VPNServer? _selectedServer;
   bool _isLoading = false;
   String _searchText = '';
   Set<String> _favoriteServers = {};
@@ -16,7 +16,7 @@ class ServerProvider with ChangeNotifier {
 
   // Getters
   List<VPNServer> get availableServers => _availableServers;
-  VPNServer get selectedServer => _selectedServer;
+  VPNServer? get selectedServer => _selectedServer;
   bool get isLoading => _isLoading;
   String get searchText => _searchText;
   Set<String> get favoriteServers => _favoriteServers;
@@ -85,21 +85,19 @@ class ServerProvider with ChangeNotifier {
         for (final server in servers) {
           print('🔍 Server: ${server.name} (${server.countryCode}) - isPremium: ${server.isPremium}');
         }
-      } else {
-        print('⚠️ No servers found in Firebase, using fallback servers');
-        _availableServers = VPNServer.fallbackServers;
-        print('📋 Using fallback servers:');
-        for (final server in _availableServers) {
-          print('🔍 Fallback: ${server.name} (${server.countryCode}) - isPremium: ${server.isPremium}');
+        
+        // Auto-select first server if no server selected yet
+        if (_selectedServer == null && _availableServers.isNotEmpty) {
+          _selectedServer = _availableServers.first;
+          print('✅ Auto-selected first server: ${_selectedServer!.name}');
         }
+      } else {
+        print('⚠️ No servers found in Firebase Remote Config');
+        print('💡 Check that "vpn_servers" parameter is set in Firebase Remote Config');
+        print('💡 Make sure you clicked "Publish changes" in Firebase Console');
       }
     } catch (e) {
       print('❌ Error fetching servers from Firebase: $e');
-      _availableServers = VPNServer.fallbackServers;
-      print('📋 Using fallback servers due to error:');
-      for (final server in _availableServers) {
-        print('🔍 Fallback: ${server.name} (${server.countryCode}) - isPremium: ${server.isPremium}');
-      }
     } finally {
       _isLoading = false;
       notifyListeners();

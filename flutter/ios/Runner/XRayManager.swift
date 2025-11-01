@@ -28,6 +28,15 @@ class XRayManager: NSObject {
     private func setupVPNManager() {
         vpnManager = NEVPNManager.shared()
         
+        // Load existing configuration
+        vpnManager?.loadFromPreferences { error in
+            if let error = error {
+                print("⚠️ Error loading VPN preferences: \(error.localizedDescription)")
+            } else {
+                print("✅ VPN preferences loaded")
+            }
+        }
+        
         // Observe VPN status changes
         statusObserver = NotificationCenter.default.addObserver(
             forName: .NEVPNStatusDidChange,
@@ -43,6 +52,8 @@ class XRayManager: NSObject {
         
         let status = manager.connection.status
         let statusString = vpnStatusString(status)
+        
+        print("🔄 XRay VPN Status changed: \(statusString)")
         
         // Notify Flutter about status change
         NotificationCenter.default.post(
@@ -81,50 +92,112 @@ class XRayManager: NSObject {
             return nil
         }
         
-        // Extract UUID from user info (format: vless://UUID@host:port)
-        let userInfo = uri.user?.isEmpty == false ? uri.user : nil
-        guard let uuid = userInfo else {
-            print("❌ Missing UUID in VLESS URI")
-            return nil
-        }
+        // Extract UUID (user id) from the user part
+        let uuid = String(uri.user ?? "")
         
         // Parse query parameters
         var queryParams: [String: String] = [:]
         if let query = uri.query {
-            let pairs = query.components(separatedBy: "&")
-            for pair in pairs {
-                let parts = pair.components(separatedBy: "=")
-                if parts.count == 2 {
-                    queryParams[parts[0]] = parts[1].removingPercentEncoding ?? parts[1]
+            let components = query.components(separatedBy: "&")
+            for component in components {
+                let pair = component.components(separatedBy: "=")
+                if pair.count == 2 {
+                    queryParams[pair[0]] = pair[1].removingPercentEncoding ?? pair[1]
                 }
             }
         }
         
-        // Extract path from query params (ws path)
-        let wsPath = queryParams["path"] ?? "/xray"
-        let encryption = queryParams["encryption"] ?? "none"
-        let network = queryParams["type"] ?? "ws"
+        // Extract parameters
+        let type = queryParams["type"] ?? "tcp"
+        let security = queryParams["security"] ?? "none"
+        let sni = queryParams["sni"]
+        let fp = queryParams["fp"]
+        let alpn = queryParams["alpn"]
+        let pbk = queryParams["pbk"]
+        let sid = queryParams["sid"]
+        let spx = queryParams["spx"]
+        let headerType = queryParams["headerType"]
         
-        // Generate XRay config with SOCKS inbound for PacketTunnelProvider
+        // Extract remark (server name) from fragment
+        let remark = uri.fragment?.removingPercentEncoding ?? "VLESS Server"
+        
+        print("📋 Parsed VLESS URI:")
+        print("   - Host: \(host)")
+        print("   - Port: \(port)")
+        print("   - UUID: \(uuid)")
+        print("   - Type: \(type)")
+        print("   - Security: \(security)")
+        print("   - Remark: \(remark)")
+        
+        // Build XRay configuration
+        var streamSettings: [String: Any] = [
+            "network": type
+        ]
+        
+        // Add security settings if present
+        if security != "none" {
+            var tlsSettings: [String: Any] = [:]
+            if let sni = sni {
+                tlsSettings["serverName"] = sni
+            }
+            if let fp = fp {
+                tlsSettings["fingerprint"] = fp
+            }
+            if let alpn = alpn {
+                tlsSettings["alpn"] = alpn.components(separatedBy: ",")
+            }
+            
+            // Add reality settings if applicable
+            if security == "reality" {
+                var realitySettings: [String: Any] = [:]
+                if let pbk = pbk {
+                    realitySettings["publicKey"] = pbk
+                }
+                if let sid = sid {
+                    realitySettings["shortId"] = sid
+                }
+                if let spx = spx {
+                    realitySettings["spiderX"] = spx
+                }
+                tlsSettings["realitySettings"] = realitySettings
+            }
+            
+            streamSettings["security"] = security
+            streamSettings["tlsSettings"] = tlsSettings
+        }
+        
+        // Add transport settings
+        if type == "grpc" {
+            streamSettings["grpcSettings"] = [
+                "serviceName": queryParams["serviceName"] ?? ""
+            ]
+        } else if type == "ws" {
+            streamSettings["wsSettings"] = [
+                "path": queryParams["path"] ?? "/"
+            ]
+        } else if type == "tcp" {
+            if let headerType = headerType {
+                streamSettings["tcpSettings"] = [
+                    "header": [
+                        "type": headerType
+                    ]
+                ]
+            }
+        }
+        
         let config: [String: Any] = [
-            "log": [
-                "loglevel": "warning"
-            ],
             "inbounds": [
                 [
-                    "tag": "socks",
                     "port": 10808,
                     "listen": "127.0.0.1",
                     "protocol": "socks",
                     "settings": [
-                        "auth": "noauth",
                         "udp": true
                     ]
                 ]
             ],
             "outbounds": [
                 [
-                    "tag": "proxy",
                     "protocol": "vless",
                     "settings": [
                         "vnext": [
@@ -134,39 +207,14 @@ class XRayManager: NSObject {
                                 "users": [
                                     [
                                         "id": uuid,
-                                        "encryption": encryption,
-                                        "flow": ""
+                                        "encryption": "none",
+                                        "level": 0
                                     ]
                                 ]
                             ]
                         ]
                     ],
-                    "streamSettings": [
-                        "network": network,
-                        "security": queryParams["security"] ?? "none",
-                        "wsSettings": [
-                            "path": wsPath,
-                            "headers": [:]
-                        ]
-                    ]
-                ],
-                [
-                    "tag": "direct",
-                    "protocol": "freedom"
-                ],
-                [
-                    "tag": "block",
-                    "protocol": "blackhole"
-                ]
-            ],
-            "routing": [
-                "domainStrategy": "IPIfNonMatch",
-                "rules": [
-                    [
-                        "type": "field",
-                        "outboundTag": "direct",
-                        "domain": ["geosite:cn"]
-                    ]
+                    "streamSettings": streamSettings
                 ]
             ]
         ]
@@ -176,13 +224,15 @@ class XRayManager: NSObject {
     
     // Connect to VLESS server
     func connectVless(vlessUri: String, countryCode: String, countryName: String, completion: @escaping (Bool, String?) -> Void) {
+        print("📡 Connecting to VLESS server: \(countryName) via XRay")
+        
         guard let manager = vpnManager else {
             completion(false, "VPN Manager not initialized")
             return
         }
         
         guard let xrayConfig = parseVlessUri(vlessUri) else {
-            completion(false, "Failed to parse VLESS URI")
+            completion(false, "Invalid VLESS URI")
             return
         }
         
@@ -192,7 +242,7 @@ class XRayManager: NSObject {
             return
         }
         
-        print("📡 Connecting to VLESS server: \(countryName) via XRay")
+        print("📋 XRay Config Size: \(jsonData.count) bytes")
         
         manager.loadFromPreferences { [weak self] error in
             if let error = error {
@@ -204,14 +254,11 @@ class XRayManager: NSObject {
                 if success {
                     do {
                         try manager.connection.startVPNTunnel()
-                        print("✅ VPN tunnel start initiated successfully")
                         completion(true, nil)
                     } catch {
-                        print("❌ Failed to start VPN tunnel: \(error.localizedDescription)")
                         completion(false, "Failed to start VPN: \(error.localizedDescription)")
                     }
                 } else {
-                    print("❌ VPN configuration failed: \(error ?? "Unknown error")")
                     completion(false, error)
                 }
             }
@@ -222,32 +269,25 @@ class XRayManager: NSObject {
         // Create packet tunnel protocol configuration
         let tunnelProtocol = NETunnelProviderProtocol()
         
-        // Server address must be a valid hostname/IP - use a placeholder that won't actually connect
-        // The actual routing happens in the PacketTunnelProvider
-        tunnelProtocol.serverAddress = "vless.tunnel" // Can be any valid hostname
+        // Server address - must be set to a valid value
+        tunnelProtocol.serverAddress = "127.0.0.1"
         
-        // Store XRay config in provider configuration (as Data for security)
+        // Store XRay config in provider configuration
         tunnelProtocol.providerConfiguration = [
             "xrayConfig": xrayConfig
         ]
         
-        // NOTE: The packet tunnel provider bundle identifier must match your app's extension target
-        // This must match the bundle identifier of the PacketTunnelProvider extension target
+        // Set the provider bundle identifier
         tunnelProtocol.providerBundleIdentifier = "com.theholylabs.network.PacketTunnelProvider"
         
-        // Validate that all required properties are set
-        guard let providerBundleId = tunnelProtocol.providerBundleIdentifier, !providerBundleId.isEmpty else {
-            completion(false, "Provider bundle identifier is required")
-            return
-        }
-        
+        // Assign to manager
         manager.protocolConfiguration = tunnelProtocol
         manager.isEnabled = true
         manager.localizedDescription = "Rock VPN - \(countryName) (VLESS)"
         
         print("📋 Configuring VPN with:")
         print("   - Server Address: \(tunnelProtocol.serverAddress ?? "nil")")
-        print("   - Provider Bundle ID: \(tunnelProtocol.providerBundleIdentifier)")
+        print("   - Provider Bundle ID: \(tunnelProtocol.providerBundleIdentifier ?? "nil")")
         print("   - Config Size: \(xrayConfig.count) bytes")
         
         // Save the configuration
@@ -255,22 +295,9 @@ class XRayManager: NSObject {
             if let error = error {
                 let errorMessage = error.localizedDescription
                 print("❌ Failed to save VPN configuration: \(errorMessage)")
+                print("💡 Tip: Restart the app if you just updated the extension")
                 
-                if errorMessage.contains("Missing protocol") || errorMessage.contains("invalid type") {
-                    print("⚠️ CRITICAL: PacketTunnelProvider extension target is missing!")
-                    print("📋 To fix this, you need to add a Network Extension target in Xcode:")
-                    print("   1. Open Runner.xcworkspace in Xcode")
-                    print("   2. File → New → Target")
-                    print("   3. Select 'Network Extension' → Next")
-                    print("   4. Product Name: PacketTunnelProvider")
-                    print("   5. Bundle ID: \(tunnelProtocol.providerBundleIdentifier)")
-                    print("   6. Language: Swift")
-                    print("   7. Replace generated files with existing PacketTunnelProvider.swift")
-                    print("   8. Add the extension's entitlements file")
-                    print("   9. Ensure extension is embedded in Runner app target")
-                }
-                
-                completion(false, "Failed to save VPN configuration: \(errorMessage). Make sure PacketTunnelProvider extension target is added to Xcode project.")
+                completion(false, "Failed to save VPN configuration: \(errorMessage)")
             } else {
                 print("✅ VPN configured for VLESS: \(countryName)")
                 completion(true, nil)
@@ -287,5 +314,18 @@ class XRayManager: NSObject {
         manager.connection.stopVPNTunnel()
         completion(true, nil)
     }
+    
+    func getCurrentStatus() -> [String: Any] {
+        guard let manager = vpnManager else {
+            return ["status": "error", "isConnected": false]
+        }
+        
+        let status = manager.connection.status
+        let statusString = vpnStatusString(status)
+        
+        return [
+            "status": statusString,
+            "isConnected": status == .connected
+        ]
+    }
 }
-

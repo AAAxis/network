@@ -2,12 +2,12 @@ import 'dart:io';
 
 class AppConstants {
   // App Information
-  static const String appName = 'VPN';
-  static const String appVersion = '1.1.0';
-  static const String buildNumber = '2';
+  static const String appName = 'Rock - VPN & Proxy';
+  static const String appVersion = '1.3.0';
+  static const String buildNumber = '13';
   
   // Package Information
-  static const String androidPackageName = 'com.theholylabs.proxy';
+  static const String androidPackageName = 'com.theholylabs.rock';
   
   // RevenueCat Configuration
   static const String revenueCatApiKeyAndroid = 'goog_DMztEaCVhFMXcFodoKSmigHyUXu'; // Google Play key (corrected)
@@ -69,8 +69,8 @@ class AppConstants {
   ];
   
   static const List<String> subscriptionProductsAndroid = [
-    'monthly_subscription',
-    'yearly_subscription',
+    'rock_short',
+    'rock_long',
   ];
   
   static List<String> get platformSubscriptionProducts {

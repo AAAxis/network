@@ -144,71 +144,7 @@ class VPNServer {
     );
   }
 
-  // Fallback servers for testing
-  static List<VPNServer> get fallbackServers {
-    return [
-      VPNServer(
-        id: 'us-1',
-        name: 'United States',
-        countryCode: 'US',
-        countryName: 'United States',
-        city: 'New York',
-        serverAddress: 'us.example.com',
-        isPremium: false,
-        active: true,
-        status: ServerStatus.available,
-        flag: '🇺🇸',
-      ),
-      VPNServer(
-        id: 'uk-1',
-        name: 'United Kingdom',
-        countryCode: 'GB',
-        countryName: 'United Kingdom',
-        city: 'London',
-        serverAddress: 'uk.example.com',
-        isPremium: false,
-        active: true,
-        status: ServerStatus.available,
-        flag: '🇬🇧',
-      ),
-      VPNServer(
-        id: 'jp-1',
-        name: 'Japan',
-        countryCode: 'JP',
-        countryName: 'Japan',
-        city: 'Tokyo',
-        serverAddress: 'jp.example.com',
-        isPremium: true,
-        active: true,
-        status: ServerStatus.available,
-        flag: '🇯🇵',
-      ),
-      VPNServer(
-        id: 'de-1',
-        name: 'Germany',
-        countryCode: 'DE',
-        countryName: 'Germany',
-        city: 'Frankfurt',
-        serverAddress: 'de.example.com',
-        isPremium: false,
-        active: true,
-        status: ServerStatus.available,
-        flag: '🇩🇪',
-      ),
-      VPNServer(
-        id: 'fr-1',
-        name: 'France',
-        countryCode: 'FR',
-        countryName: 'France',
-        city: 'Paris',
-        serverAddress: 'fr.example.com',
-        isPremium: true,
-        active: true,
-        status: ServerStatus.available,
-        flag: '🇫🇷',
-      ),
-    ];
-  }
+  // No fallback servers - Remote Config is required
 
   @override
   bool operator ==(Object other) {

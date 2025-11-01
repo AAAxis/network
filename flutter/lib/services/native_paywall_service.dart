@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 
@@ -43,11 +44,61 @@ class NativePaywallService {
         
         return result ?? false;
       } else {
-        // Android fallback - use RevenueCat UI plugin if available
-        // For now, show a simple message
-        print('⚠️ Android native paywall not yet implemented');
+        // Android: Use RevenueCat UI
+        try {
+          // Get offerings from RevenueCat
+          final offerings = await Purchases.getOfferings();
+          
+          if (offerings.current != null) {
+            // Show paywall using RevenueCat UI
+            final result = await RevenueCatUI.presentPaywall(
+              offering: offerings.current!,
+              displayCloseButton: false,
+            );
+            
+            print('📱 Paywall result: $result');
+            
+            // Handle result
+            if (result == PaywallResult.purchased) {
+              print('✅ Purchase completed');
+              if (onPurchaseCompleted != null) {
+                onPurchaseCompleted();
+              }
+              return true;
+            } else if (result == PaywallResult.restored) {
+              print('✅ Restore completed');
+              if (onRestoreCompleted != null) {
+                onRestoreCompleted();
+              }
+              return true;
+            } else if (result == PaywallResult.cancelled || result == PaywallResult.notPresented) {
+              print('🚪 Paywall cancelled or not presented');
+              if (onDismiss != null) {
+                onDismiss();
+              }
+              return false;
+            } else if (result == PaywallResult.error) {
+              print('❌ Paywall error occurred');
+              if (onDismiss != null) {
+                onDismiss();
+              }
+              return false;
+            }
+            
+            if (onDismiss != null) {
+              onDismiss();
+            }
+            return false;
+          } else {
+            print('⚠️ No current offering available');
+            if (onDismiss != null) onDismiss();
+            return false;
+          }
+        } catch (e) {
+          print('❌ Error showing Android paywall: $e');
         if (onDismiss != null) onDismiss();
         return false;
+        }
       }
     } catch (e) {
       print('❌ Error presenting native paywall: $e');

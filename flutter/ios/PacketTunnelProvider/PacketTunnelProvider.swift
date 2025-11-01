@@ -2,75 +2,130 @@
 //  PacketTunnelProvider.swift
 //  PacketTunnelProvider
 //
-//  Created by Admin on 31/10/2025.
+//  Complete XRay/VLESS implementation with Tun2SocksKit
 //
 
 import NetworkExtension
+import XRay
+import Tun2SocksKit
+import os
 
-class PacketTunnelProvider: NEPacketTunnelProvider {
+final class PacketTunnelProvider: NEPacketTunnelProvider {
+    override func startTunnel(options: [String : NSObject]? = nil) async throws {
+        guard
+            let protocolConfiguration = protocolConfiguration as? NETunnelProviderProtocol,
+            let providerConfiguration = protocolConfiguration.providerConfiguration
+        else {
+            throw NSError()
+        }
+        guard let xrayConfig: Data = providerConfiguration["xrayConfig"] as? Data else {
+            throw NSError()
+        }
+        guard let tunport: Int = parseConfig(jsonData: xrayConfig) else {
+            throw NSError()
+        }
 
-    override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-        print("✅ PacketTunnelProvider: startTunnel called")
-        
-        // Get XRay config from provider configuration
-        guard let protocolConfig = self.protocolConfiguration as? NETunnelProviderProtocol,
-              let providerConfig = protocolConfig.providerConfiguration,
-              let xrayConfigData = providerConfig["xrayConfig"] as? Data else {
-            print("❌ PacketTunnelProvider: No XRay config found in provider configuration")
-            // Even without config, complete to allow VPN to be configured
-            // The actual config will be used when connecting
-            completionHandler(nil)
-            return
-        }
-        
-        print("✅ PacketTunnelProvider: Starting tunnel with config size: \(xrayConfigData.count) bytes")
-        
-        // TODO: Initialize XRay with config and start tunnel
-        // For now, just set up basic network settings to allow the VPN configuration to be saved
-        // The actual XRay implementation will be added later
-        
-        // Set up network settings
-        let networkSettings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "127.0.0.1")
-        
-        // Configure IPv4 settings
-        let ipv4Settings = NEIPv4Settings(addresses: ["10.0.0.2"], subnetMasks: ["255.255.255.0"])
-        ipv4Settings.includedRoutes = [NEIPv4Route.default()]
-        networkSettings.ipv4Settings = ipv4Settings
-        
-        // Set DNS
-        let dnsSettings = NEDNSSettings(servers: ["8.8.8.8", "8.8.4.4"])
-        networkSettings.dnsSettings = dnsSettings
-        
-        // Apply network settings
-        setTunnelNetworkSettings(networkSettings) { error in
-            if let error = error {
-                print("❌ PacketTunnelProvider: Failed to set network settings: \(error.localizedDescription)")
-                completionHandler(error)
-            } else {
-                print("✅ PacketTunnelProvider: Tunnel started successfully")
-                completionHandler(nil)
-            }
-        }
+        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "254.1.1.1")
+        settings.mtu = 9000
+        settings.ipv4Settings = {
+            let settings = NEIPv4Settings(addresses: ["198.18.0.1"], subnetMasks: ["255.255.0.0"])
+            settings.includedRoutes = [NEIPv4Route.default()]
+            return settings
+        }()
+        settings.ipv6Settings = {
+            let settings = NEIPv6Settings(addresses: ["fd6e:a81b:704f:1211::1"], networkPrefixLengths: [64])
+            settings.includedRoutes = [NEIPv6Route.default()]
+            return settings
+        }()
+        settings.dnsSettings = NEDNSSettings(servers: ["8.8.8.8", "114.114.114.114"])
+        try await self.setTunnelNetworkSettings(settings)
+        self.startXRay(xrayConfig: xrayConfig)
+        self.startSocks5Tunnel(serverPort: tunport)
+
     }
-    
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
-        // Add code here to start the process of stopping the tunnel.
+        stopXRay()
+        Socks5Tunnel.quit()
+
         completionHandler()
     }
-    
+
     override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
-        // Add code here to handle the message.
-        if let handler = completionHandler {
-            handler(messageData)
+        if let message = String(data: messageData, encoding: .utf8) {
+            if (message == "xray_traffic"){
+                completionHandler?("\(Socks5Tunnel.stats.up.bytes),\(Socks5Tunnel.stats.down.bytes)".data(using: .utf8))
+            }else if (message.hasPrefix("xray_delay")){
+                var error: NSError?
+                var delay: Int64 = -1
+                let url = String(message[message.index(message.startIndex, offsetBy: 10)...])
+                XRayMeasureDelay(url, &delay, &error)
+                completionHandler?("\(delay)".data(using: .utf8))
+            }
+            else{
+                completionHandler?(messageData)
+            }
+
+        }else{
+            completionHandler?(messageData)
         }
     }
-    
+
     override func sleep(completionHandler: @escaping () -> Void) {
-        // Add code here to get ready to sleep.
         completionHandler()
     }
-    
-    override func wake() {
-        // Add code here to wake up.
+
+    private func startSocks5Tunnel(serverPort port: Int) {
+        let config = """
+        tunnel:
+          mtu: 9000
+        socks5:
+          port: \(port)
+          address: 127.0.0.1
+          udp: 'udp'
+        misc:
+          task-stack-size: 20480
+          connect-timeout: 5000
+          read-write-timeout: 60000
+          log-file: stdout
+          log-level: debug
+          limit-nofile: 65535
+        """
+        DispatchQueue.global(qos: .userInitiated).async {
+            _ = Socks5Tunnel.run(withConfig: .string(content: config))
+        }
+    }
+
+    private func startXRay(xrayConfig: Data) {
+        XRaySetMemoryLimit()
+
+        var error: NSError?
+        _ = XRayStart(xrayConfig, nil, &error)
+    }
+
+    private func stopXRay() {
+        XRayStop()
+    }
+
+    private func parseConfig(jsonData: Data) -> Int? {
+        do {
+            if let configJSON = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+               let inbounds = configJSON["inbounds"] as? [[String: Any]] {
+                for inbound in inbounds {
+                    if let protocolType = inbound["protocol"] as? String, let port = inbound["port"] as? Int {
+                        switch protocolType {
+                        case "socks":
+                            return port
+                        case "http":
+                            return port
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Failed to parse JSON: \(error)")
+        }
+        return nil;
     }
 }

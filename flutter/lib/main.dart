@@ -106,7 +106,7 @@ class VPNApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
       ],
       child: MaterialApp(
-        title: 'VPN',
+        title: 'Rock - VPN & Proxy',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: false, // Use Material 2 for compatibility

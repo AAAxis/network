@@ -2,55 +2,38 @@
 //  XRayManager.swift
 //  Runner
 //
-//  Created for VLESS/XRay VPN Support
+//  Created for VLESS/XRay VPN Support using XRayVPNFramework
 //
 
 import Foundation
 import NetworkExtension
+import XRayVPNFramework
+import Combine
 
 class XRayManager: NSObject {
     static let shared = XRayManager()
     
-    private var vpnManager: NEVPNManager?
-    private var statusObserver: NSObjectProtocol?
+    private var statusCancellable: AnyCancellable?
+    private var currentVPNStatus: NEVPNStatus = .disconnected
     
     override init() {
         super.init()
-        setupVPNManager()
+        observeVPNStatus()
     }
     
     deinit {
-        if let observer = statusObserver {
-            NotificationCenter.default.removeObserver(observer)
+        statusCancellable?.cancel()
+    }
+    
+    private func observeVPNStatus() {
+        // Observe VPN status changes from XRayVPN service (as per README step 1)
+        statusCancellable = XRayVPN.vpnService.status.sink { [weak self] status in
+            self?.statusDidChange(status)
         }
     }
     
-    private func setupVPNManager() {
-        vpnManager = NEVPNManager.shared()
-        
-        // Load existing configuration
-        vpnManager?.loadFromPreferences { error in
-            if let error = error {
-                print("⚠️ Error loading VPN preferences: \(error.localizedDescription)")
-            } else {
-                print("✅ VPN preferences loaded")
-            }
-        }
-        
-        // Observe VPN status changes
-        statusObserver = NotificationCenter.default.addObserver(
-            forName: .NEVPNStatusDidChange,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.statusDidChange()
-        }
-    }
-    
-    private func statusDidChange() {
-        guard let manager = vpnManager else { return }
-        
-        let status = manager.connection.status
+    private func statusDidChange(_ status: NEVPNStatus) {
+        currentVPNStatus = status
         let statusString = vpnStatusString(status)
         
         print("🔄 XRay VPN Status changed: \(statusString)")
@@ -83,7 +66,7 @@ class XRayManager: NSObject {
     }
     
     // Parse VLESS URI and generate XRay config JSON
-    func parseVlessUri(_ uriString: String) -> [String: Any]? {
+    func parseVlessUri(_ uriString: String) -> String? {
         guard let uri = URL(string: uriString),
               uri.scheme == "vless",
               let host = uri.host,
@@ -219,113 +202,60 @@ class XRayManager: NSObject {
             ]
         ]
         
-        return config
+        // Convert to JSON string
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            print("❌ Failed to serialize XRay config")
+            return nil
+        }
+        
+        return jsonString
     }
     
-    // Connect to VLESS server
+    // Connect to VLESS server using XRayVPN.vpnService (as per README step 2)
     func connectVless(vlessUri: String, countryCode: String, countryName: String, completion: @escaping (Bool, String?) -> Void) {
         print("📡 Connecting to VLESS server: \(countryName) via XRay")
         
-        guard let manager = vpnManager else {
-            completion(false, "VPN Manager not initialized")
-            return
-        }
-        
-        guard let xrayConfig = parseVlessUri(vlessUri) else {
+        guard let configString = parseVlessUri(vlessUri) else {
             completion(false, "Invalid VLESS URI")
             return
         }
         
-        // Convert config to JSON data
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: xrayConfig, options: []) else {
-            completion(false, "Failed to serialize XRay config")
-            return
+        print("📋 XRay Config JSON:")
+        print(configString)
+        
+        // Store config in app group shared UserDefaults for PacketTunnelProvider to read
+        if let sharedDefaults = UserDefaults(suiteName: "group.com.theholylabs.network") {
+            sharedDefaults.set(configString, forKey: "xrayConfig")
+            sharedDefaults.synchronize()
         }
         
-        print("📋 XRay Config Size: \(jsonData.count) bytes")
-        
-        manager.loadFromPreferences { [weak self] error in
-            if let error = error {
-                completion(false, "Failed to load preferences: \(error.localizedDescription)")
-                return
-            }
-            
-            self?.configureVPN(manager: manager, xrayConfig: jsonData, countryName: countryName) { success, error in
-                if success {
-                    do {
-                        try manager.connection.startVPNTunnel()
-                        completion(true, nil)
-                    } catch {
-                        completion(false, "Failed to start VPN: \(error.localizedDescription)")
-                    }
-                } else {
-                    completion(false, error)
-                }
-            }
-        }
-    }
-    
-    private func configureVPN(manager: NEVPNManager, xrayConfig: Data, countryName: String, completion: @escaping (Bool, String?) -> Void) {
-        // Create packet tunnel protocol configuration
-        let tunnelProtocol = NETunnelProviderProtocol()
-        
-        // Server address - must be set to a valid value
-        tunnelProtocol.serverAddress = "127.0.0.1"
-        
-        // Store XRay config in provider configuration
-        tunnelProtocol.providerConfiguration = [
-            "xrayConfig": xrayConfig
-        ]
-        
-        // Set the provider bundle identifier
-        tunnelProtocol.providerBundleIdentifier = "com.theholylabs.network.PacketTunnelProvider"
-        
-        // Assign to manager
-        manager.protocolConfiguration = tunnelProtocol
-        manager.isEnabled = true
-        manager.localizedDescription = "Rock VPN - \(countryName) (VLESS)"
-        
-        print("📋 Configuring VPN with:")
-        print("   - Server Address: \(tunnelProtocol.serverAddress ?? "nil")")
-        print("   - Provider Bundle ID: \(tunnelProtocol.providerBundleIdentifier ?? "nil")")
-        print("   - Config Size: \(xrayConfig.count) bytes")
-        
-        // Save the configuration
-        manager.saveToPreferences { error in
-            if let error = error {
-                let errorMessage = error.localizedDescription
-                print("❌ Failed to save VPN configuration: \(errorMessage)")
-                print("💡 Tip: Restart the app if you just updated the extension")
-                
-                completion(false, "Failed to save VPN configuration: \(errorMessage)")
-            } else {
-                print("✅ VPN configured for VLESS: \(countryName)")
+        // Use XRayVPN.vpnService.connect() as per README
+        Task {
+            do {
+                try await XRayVPN.vpnService.connect()
+                print("✅ XRay VPN connected successfully")
                 completion(true, nil)
+            } catch {
+                print("❌ XRay VPN connection failed: \(error.localizedDescription)")
+                completion(false, "Connection failed: \(error.localizedDescription)")
             }
         }
     }
     
+    // Disconnect from VPN (as per README step 3)
     func disconnectVless(completion: @escaping (Bool, String?) -> Void) {
-        guard let manager = vpnManager else {
-            completion(false, "VPN Manager not initialized")
-            return
-        }
-        
-        manager.connection.stopVPNTunnel()
+        print("📡 Disconnecting XRay VPN...")
+        XRayVPN.vpnService.disconnect()
         completion(true, nil)
     }
     
     func getCurrentStatus() -> [String: Any] {
-        guard let manager = vpnManager else {
-            return ["status": "error", "isConnected": false]
-        }
-        
-        let status = manager.connection.status
-        let statusString = vpnStatusString(status)
+        let statusString = vpnStatusString(currentVPNStatus)
         
         return [
             "status": statusString,
-            "isConnected": status == .connected
+            "isConnected": currentVPNStatus == .connected
         ]
     }
 }

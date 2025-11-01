@@ -124,10 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       
                       const SizedBox(height: 12),
                       
-                      // Protocol Selector (iOS only)
-                      if (Platform.isIOS && !vpnProvider.isConnected)
-                        _buildProtocolSelector(context, vpnProvider),
-                      
                       const SizedBox(height: 24),
 
                       // Large Connect/Disconnect Button
@@ -350,87 +346,4 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
   
-  Widget _buildProtocolSelector(BuildContext context, VPNProvider vpnProvider) {
-    final isVLESS = vpnProvider.protocolMode == ProtocolMode.vless;
-    final isIPSec = vpnProvider.protocolMode == ProtocolMode.ipsec;
-    
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                vpnProvider.setProtocolMode(ProtocolMode.ipsec);
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: isIPSec ? Colors.green : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.vpn_key,
-                      color: isIPSec ? Colors.white : Colors.grey[400],
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'IPSec',
-                      style: TextStyle(
-                        color: isIPSec ? Colors.white : Colors.grey[400],
-                        fontWeight: isIPSec ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 4),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                vpnProvider.setProtocolMode(ProtocolMode.vless);
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: isVLESS ? Colors.blue : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.bolt,
-                      color: isVLESS ? Colors.white : Colors.grey[400],
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'VLESS',
-                      style: TextStyle(
-                        color: isVLESS ? Colors.white : Colors.grey[400],
-                        fontWeight: isVLESS ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

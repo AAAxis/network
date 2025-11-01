@@ -133,18 +133,18 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-	848461192EB4AFD50045586F /* Frameworks */ = {
-		isa = PBXFrameworksBuildPhase;
-		buildActionMask = 2147483647;
-		files = (
-			84A242642EB5D43500EA924D /* XRayVPNFramework.xcframework in Frameworks */,
-			84A242652EB5D43600EA924D /* XRay.xcframework in Frameworks */,
-			8484611E2EB4AFD50045586F /* NetworkExtension.framework in Frameworks */,
-			84A242342EB56EA300EA924D /* Tun2SocksKit in Frameworks */,
-			84A242392EB571F700EA924D /* libresolv.tbd in Frameworks */,
-		);
-		runOnlyForDeploymentPostprocessing = 0;
-	};
+		848461192EB4AFD50045586F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84A242642EB5D43500EA924D /* XRayVPNFramework.xcframework in Frameworks */,
+				84A242652EB5D43600EA924D /* XRay.xcframework in Frameworks */,
+				8484611E2EB4AFD50045586F /* NetworkExtension.framework in Frameworks */,
+				84A242342EB56EA300EA924D /* Tun2SocksKit in Frameworks */,
+				84A242392EB571F700EA924D /* libresolv.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EB1CF9000F007C117D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -239,19 +239,19 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
-	E34FC072D921AD7481266E1C /* Frameworks */ = {
-		isa = PBXGroup;
-		children = (
-			84A242382EB570D800EA924D /* libresolv.tbd */,
-			84A242352EB56FFA00EA924D /* XRayVPNFramework.xcframework */,
-			84A242662EB5D43700EA924D /* XRay.xcframework */,
-			8484611D2EB4AFD50045586F /* NetworkExtension.framework */,
-			FE70192F0A846C2F3AFC2C25 /* Pods_Runner.framework */,
-			00783E83EE53D30379FCD9F5 /* Pods_RunnerTests.framework */,
-		);
-		name = Frameworks;
-		sourceTree = "<group>";
-	};
+		E34FC072D921AD7481266E1C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84A242382EB570D800EA924D /* libresolv.tbd */,
+				84A242352EB56FFA00EA924D /* XRayVPNFramework.xcframework */,
+				84A242662EB5D43700EA924D /* XRay.xcframework */,
+				8484611D2EB4AFD50045586F /* NetworkExtension.framework */,
+				FE70192F0A846C2F3AFC2C25 /* Pods_Runner.framework */,
+				00783E83EE53D30379FCD9F5 /* Pods_RunnerTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -705,6 +705,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = PacketTunnelProvider/PacketTunnelProvider.entitlements;
+			"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LJPXXSNQZ9;
@@ -745,6 +746,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = PacketTunnelProvider/PacketTunnelProvider.entitlements;
+			"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LJPXXSNQZ9;
@@ -782,6 +784,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = PacketTunnelProvider/PacketTunnelProvider.entitlements;
+			"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LJPXXSNQZ9;

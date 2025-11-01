@@ -12,14 +12,22 @@ import os
 
 final class PacketTunnelProvider: NEPacketTunnelProvider {
     override func startTunnel(options: [String : NSObject]? = nil) async throws {
-        guard
-            let protocolConfiguration = protocolConfiguration as? NETunnelProviderProtocol,
-            let providerConfiguration = protocolConfiguration.providerConfiguration
-        else {
-            throw NSError()
+        // Try to get config from providerConfiguration first
+        var xrayConfig: Data?
+        
+        if let protocolConfiguration = protocolConfiguration as? NETunnelProviderProtocol,
+           let providerConfiguration = protocolConfiguration.providerConfiguration,
+           let configData = providerConfiguration["xrayConfig"] as? Data {
+            xrayConfig = configData
+        } else if let sharedDefaults = UserDefaults(suiteName: "group.com.theholylabs.network"),
+                  let configString = sharedDefaults.string(forKey: "xrayConfig"),
+                  let configData = configString.data(using: .utf8) {
+            // Fallback to app group shared defaults
+            xrayConfig = configData
         }
-        guard let xrayConfig: Data = providerConfiguration["xrayConfig"] as? Data else {
-            throw NSError()
+        
+        guard let xrayConfig = xrayConfig else {
+            throw NSError(domain: "PacketTunnelProvider", code: 1, userInfo: [NSLocalizedDescriptionKey: "No XRay config found"])
         }
         guard let tunport: Int = parseConfig(jsonData: xrayConfig) else {
             throw NSError()

@@ -6,6 +6,7 @@ import UserNotifications
 import RevenueCat
 import RevenueCatUI
 import SwiftUI
+import XRayVPNFramework
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -21,6 +22,18 @@ import SwiftUI
   ) -> Bool {
         
         print("📱 iOS AppDelegate: didFinishLaunchingWithOptions called")
+        
+        // Initialize XRayVPN first (as per README step 14)
+        print("🚀 Initializing XRayVPN...")
+        Task {
+            await XRayVPN.initialize(
+                appGroup: "group.com.theholylabs.network",
+                tunnelBundleId: "com.theholylabs.network.PacketTunnelProvider",
+                completion: {
+                    print("✅ XRayVPN initialized successfully")
+                }
+            )
+        }
         
         // Don't configure Firebase here - Flutter will do it
         // This prevents the "Firebase app has not yet been configured" warning

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 import '../models/vpn_server.dart';
 import '../providers/server_provider.dart';
 import '../providers/subscription_provider.dart';
+import '../providers/vpn_provider.dart';
 import '../services/native_paywall_service.dart';
+import '../utils/app_constants.dart';
 
 class ServerSelector extends StatefulWidget {
   final Function(VPNServer) onServerSelected;
@@ -105,6 +108,48 @@ class _ServerSelectorState extends State<ServerSelector> {
           
           const SizedBox(height: 20),
           
+          // Protocol Switcher (VLESS/IPSec)
+          Consumer<VPNProvider>(
+            builder: (context, vpnProvider, child) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildProtocolButton(
+                          label: 'IPSec',
+                          icon: Icons.security,
+                          isSelected: vpnProvider.protocolMode == ProtocolMode.ipsec,
+                          onTap: () => vpnProvider.setProtocolMode(ProtocolMode.ipsec),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: _buildProtocolButton(
+                          label: 'VLESS',
+                          icon: Icons.vpn_lock,
+                          isSelected: vpnProvider.protocolMode == ProtocolMode.vless,
+                          onTap: Platform.isIOS 
+                              ? () => vpnProvider.setProtocolMode(ProtocolMode.vless)
+                              : null, // Disable on Android
+                          isDisabled: Platform.isAndroid,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          
+          const SizedBox(height: 16),
+          
           // Tabs
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -198,6 +243,57 @@ class _ServerSelectorState extends State<ServerSelector> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProtocolButton({
+    required String label,
+    required IconData icon,
+    required bool isSelected,
+    VoidCallback? onTap,
+    bool isDisabled = false,
+  }) {
+    return GestureDetector(
+      onTap: isDisabled ? null : onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.green : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: isDisabled 
+                  ? Colors.grey[700]
+                  : (isSelected ? Colors.white : Colors.grey[400]),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: isDisabled 
+                    ? Colors.grey[700]
+                    : (isSelected ? Colors.white : Colors.grey[400]),
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                fontSize: 14,
+              ),
+            ),
+            if (isDisabled && Platform.isAndroid)
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Icon(
+                  Icons.lock,
+                  size: 14,
+                  color: Colors.grey[700],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
